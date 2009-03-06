@@ -4,6 +4,27 @@ require 'blogger_api'
 require 'meta_weblog_api'
 require 'movable_type_api'
 
+=begin
+
+client = TypoClient.new('http://your.blog.com/backend/xmlrpc', 'username', 'password')
+
+blogclient = client.getUsersBlogs[0]
+
+# post
+postid1 = blogclient.newPost("title", "contents", ["category1", "category2"], "keyword1 keyword2", "2009/03/06 11:12")
+
+# post with title and content 
+postid2 = blogclient.newPost("title", "contents")
+
+# get
+posts = blogclient.getRecentPosts(10)
+
+# delete
+blogclient.deletePost(postid1)
+
+=end
+
+
 class BlogClient
   attr_reader :blog
   def initialize(client, blogStruct)
@@ -27,7 +48,7 @@ class BlogClient
     @client.newPostStruct(@blog.blogid, user, password, struct, publish)
   end
 
-  #  created - time representing string
+  #  created - time representing string 'yyyy/mm/dd HH:MM'
   def newPost(title, contents, categories = nil, keywords = nil, created = nil, publish = 1, user = nil, password = nil)
     article = MetaWeblogStructs::Article.new
     article.title = title
